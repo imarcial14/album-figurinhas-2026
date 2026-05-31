@@ -126,7 +126,12 @@ const elements = {
   signInBtn: document.querySelector("#signInBtn"),
   signUpBtn: document.querySelector("#signUpBtn"),
   signOutBtn: document.querySelector("#signOutBtn"),
-  syncNowBtn: document.querySelector("#syncNowBtn")
+  syncNowBtn: document.querySelector("#syncNowBtn"),
+  authGateStatus: document.querySelector("#authGateStatus"),
+  authEmail: document.querySelector("#authEmail"),
+  authPassword: document.querySelector("#authPassword"),
+  authSignInBtn: document.querySelector("#authSignInBtn"),
+  authSignUpBtn: document.querySelector("#authSignUpBtn")
 };
 
 function makeSticker(code, prefix) {
@@ -427,6 +432,9 @@ function setSyncStatus(message) {
   if (elements.syncStatus) {
     elements.syncStatus.textContent = message;
   }
+  if (elements.authGateStatus && document.body.classList.contains("auth-required")) {
+    elements.authGateStatus.textContent = message;
+  }
 }
 
 function setAuthUi(isSignedIn) {
@@ -436,10 +444,31 @@ function setAuthUi(isSignedIn) {
   elements.signUpBtn?.classList.toggle("hidden", isSignedIn);
   elements.signOutBtn?.classList.toggle("hidden", !isSignedIn);
   elements.syncNowBtn?.classList.toggle("hidden", !isSignedIn);
+  document.body.classList.toggle("auth-required", syncState.enabled && !isSignedIn);
 }
 
 function setSyncControlsVisible(isVisible) {
   elements.syncLogin?.classList.toggle("hidden", !isVisible);
+}
+
+function getAuthCredentials() {
+  const gateEmail = elements.authEmail?.value.trim() || "";
+  const gatePassword = elements.authPassword?.value || "";
+  const inlineEmail = elements.syncEmail?.value.trim() || "";
+  const inlinePassword = elements.syncPassword?.value || "";
+  return {
+    email: gateEmail || inlineEmail,
+    password: gatePassword || inlinePassword
+  };
+}
+
+function mirrorAuthFields() {
+  const email = elements.authEmail?.value || elements.syncEmail?.value || "";
+  const password = elements.authPassword?.value || elements.syncPassword?.value || "";
+  if (elements.authEmail) elements.authEmail.value = email;
+  if (elements.syncEmail) elements.syncEmail.value = email;
+  if (elements.authPassword) elements.authPassword.value = password;
+  if (elements.syncPassword) elements.syncPassword.value = password;
 }
 
 function getSupabaseSettings() {
@@ -459,6 +488,10 @@ function initSupabase() {
     return;
   }
 
+  syncState.enabled = true;
+  document.body.classList.add("auth-required");
+  setSyncStatus("Preparando login...");
+
   if (!window.supabase?.createClient) {
     setSyncStatus("Supabase indisponivel");
     setSyncControlsVisible(false);
@@ -468,7 +501,6 @@ function initSupabase() {
 
   setSyncControlsVisible(true);
   syncState.client = window.supabase.createClient(settings.url, settings.key);
-  syncState.enabled = true;
   syncState.albumId = settings.albumId;
   setSyncStatus("Conectando...");
 
@@ -496,8 +528,8 @@ function initSupabase() {
 
 async function signIn() {
   if (!syncState.client) return;
-  const email = elements.syncEmail.value.trim();
-  const password = elements.syncPassword.value;
+  mirrorAuthFields();
+  const { email, password } = getAuthCredentials();
   if (!email || !password) {
     showToast("Informe email e senha.");
     return;
@@ -512,8 +544,8 @@ async function signIn() {
 
 async function signUp() {
   if (!syncState.client) return;
-  const email = elements.syncEmail.value.trim();
-  const password = elements.syncPassword.value;
+  mirrorAuthFields();
+  const { email, password } = getAuthCredentials();
   if (!email || !password) {
     showToast("Informe email e senha.");
     return;
@@ -779,6 +811,13 @@ elements.signUpBtn?.addEventListener("click", signUp);
 elements.signOutBtn?.addEventListener("click", signOut);
 elements.syncNowBtn?.addEventListener("click", forceFullSync);
 elements.syncPassword?.addEventListener("keydown", event => {
+  if (event.key === "Enter") {
+    signIn();
+  }
+});
+elements.authSignInBtn?.addEventListener("click", signIn);
+elements.authSignUpBtn?.addEventListener("click", signUp);
+elements.authPassword?.addEventListener("keydown", event => {
   if (event.key === "Enter") {
     signIn();
   }

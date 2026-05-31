@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Album 2026 - Controle de Figurinhas</title>
-    <link rel="stylesheet" href="./styles.css" />
+    <link rel="stylesheet" href="./styles.css?v=login-required-1" />
   </head>
   <body>
     <div class="app-shell">
@@ -29,6 +29,20 @@
           </label>
         </div>
       </header>
+
+      <section id="authGate" class="auth-gate" aria-label="Entrar no album">
+        <div class="auth-card">
+          <p class="eyebrow">Album da familia</p>
+          <h2>Entre para sincronizar</h2>
+          <p id="authGateStatus">Use uma conta da familia para acessar o controle online.</p>
+          <div class="auth-fields">
+            <input id="authEmail" type="email" placeholder="email" autocomplete="email" />
+            <input id="authPassword" type="password" placeholder="senha" autocomplete="current-password" />
+            <button id="authSignInBtn" class="primary-button" type="button">Entrar</button>
+            <button id="authSignUpBtn" class="secondary-button" type="button">Criar conta</button>
+          </div>
+        </div>
+      </section>
 
       <main>
         <section class="summary-strip" aria-label="Resumo">
@@ -134,8 +148,8 @@
     </template>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="./supabase-config.js"></script>
+    <script src="./supabase-config.js?v=login-required-1"></script>
     <script src="./sticker-images.js"></script>
-    <script src="./app.js"></script>
+    <script src="./app.js?v=login-required-1"></script>
   </body>
 </html>

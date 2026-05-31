@@ -45,6 +45,7 @@ porque esse arquivo sera enviado ao navegador.
 
 Quando a configuracao estiver preenchida, o app mostra login e sincroniza a tabela
 `album_stickers`. Sem configuracao, ele continua funcionando em modo local.
+Com Supabase configurado, o login e obrigatorio antes de usar o album.
 
 O SQL inicial permite acesso a usuarios autenticados do projeto. Para uso familiar,
 crie apenas as contas da familia ou desative novos cadastros depois de criar os
