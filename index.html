@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Album 2026 - Controle de Figurinhas</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <div class="brand-block">
+          <img src="./assets/header.png" alt="Album de figurinhas 2026" class="brand-art" />
+          <div>
+            <p class="eyebrow">Album 2026</p>
+            <h1>Controle de Figurinhas</h1>
+          </div>
+        </div>
+        <div class="header-actions">
+          <button id="exportTextBtn" class="icon-button" title="Copiar listas" aria-label="Copiar listas">
+            <span aria-hidden="true">CL</span>
+          </button>
+          <button id="exportJsonBtn" class="icon-button" title="Exportar backup" aria-label="Exportar backup">
+            <span aria-hidden="true">BK</span>
+          </button>
+          <label class="icon-button import-button" title="Importar backup" aria-label="Importar backup">
+            <span aria-hidden="true">IM</span>
+            <input id="importJsonInput" type="file" accept="application/json" />
+          </label>
+        </div>
+      </header>
+
+      <main>
+        <section class="summary-strip" aria-label="Resumo">
+          <article>
+            <span id="ownedCount">0</span>
+            <p>No album</p>
+          </article>
+          <article>
+            <span id="missingCount">0</span>
+            <p>Faltando</p>
+          </article>
+          <article>
+            <span id="duplicatesCount">0</span>
+            <p>Repetidas</p>
+          </article>
+          <article>
+            <span id="progressPercent">0%</span>
+            <p>Completo</p>
+          </article>
+        </section>
+
+        <section class="progress-band">
+          <div class="progress-track" aria-hidden="true">
+            <div id="progressFill" class="progress-fill"></div>
+          </div>
+        <div class="progress-meta">
+          <span id="totalCount">994 figurinhas</span>
+          <span id="lastSaved">Salvo automaticamente</span>
+        </div>
+        <div class="sync-panel" aria-label="Sincronizacao online">
+          <div>
+            <strong>Supabase</strong>
+            <span id="syncStatus">Modo local</span>
+          </div>
+          <div class="sync-login">
+            <input id="syncEmail" type="email" placeholder="email" autocomplete="email" />
+            <input id="syncPassword" type="password" placeholder="senha" autocomplete="current-password" />
+            <button id="signInBtn" class="secondary-button" type="button">Entrar</button>
+            <button id="signUpBtn" class="secondary-button" type="button">Criar</button>
+            <button id="signOutBtn" class="secondary-button hidden" type="button">Sair</button>
+            <button id="syncNowBtn" class="primary-button hidden" type="button">Sincronizar</button>
+          </div>
+        </div>
+      </section>
+
+        <section class="workbench">
+          <aside class="sidebar" aria-label="Grupos">
+            <div class="sidebar-head">
+              <h2>Grupos</h2>
+              <button id="clearFiltersBtn" class="text-button">Limpar</button>
+            </div>
+            <div id="groupList" class="group-list"></div>
+          </aside>
+
+          <section class="collection-panel">
+            <div class="toolbar">
+              <div class="search-field">
+                <input id="searchInput" type="search" placeholder="Buscar codigo ou pais" autocomplete="off" />
+              </div>
+              <div class="segmented" role="tablist" aria-label="Filtro">
+                <button class="segment active" data-filter="all">Todas</button>
+                <button class="segment" data-filter="missing">Faltam</button>
+                <button class="segment" data-filter="owned">Tenho</button>
+                <button class="segment" data-filter="duplicates">Repetidas</button>
+              </div>
+            </div>
+
+            <div class="quick-add">
+              <input id="quickInput" type="text" placeholder="BRA10, FWC3, CC1" autocomplete="off" />
+              <button id="addOneBtn" class="primary-button">Adicionar</button>
+              <button id="removeOneBtn" class="secondary-button">Remover</button>
+            </div>
+
+            <div class="panel-meta">
+              <h2 id="currentTitle">Todas as figurinhas</h2>
+              <span id="visibleCount">0 resultados</span>
+            </div>
+
+            <div id="stickerGrid" class="sticker-grid" aria-live="polite"></div>
+            <p id="emptyState" class="empty-state">Nenhuma figurinha encontrada.</p>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <template id="stickerTemplate">
+      <article class="sticker-tile">
+        <figure class="sticker-photo">
+          <img alt="" loading="lazy" />
+        </figure>
+        <div class="tile-top">
+          <strong class="sticker-code"></strong>
+          <span class="status-pill"></span>
+        </div>
+        <p class="sticker-team"></p>
+        <p class="sticker-player"></p>
+        <div class="quantity-row">
+          <button class="qty-btn minus" title="Diminuir" aria-label="Diminuir">-</button>
+          <span class="qty-value">0</span>
+          <button class="qty-btn plus" title="Aumentar" aria-label="Aumentar">+</button>
+        </div>
+      </article>
+    </template>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="./supabase-config.js"></script>
+    <script src="./sticker-images.js"></script>
+    <script src="./app.js"></script>
+  </body>
+</html>

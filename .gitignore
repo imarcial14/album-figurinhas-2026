@@ -1,0 +1,5 @@
+.vercel/
+tmp/
+assets/stickers/
+*.log
+Thumbs.db
