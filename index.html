@@ -8,11 +8,11 @@
     <meta name="apple-mobile-web-app-title" content="Figurinhas 2026" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <title>Album 2026 - Controle de Figurinhas</title>
-    <link rel="manifest" href="./site.webmanifest?v=pwa-icons-1" />
-    <link rel="icon" type="image/png" sizes="32x32" href="./assets/icons/favicon-32.png?v=pwa-icons-1" />
-    <link rel="icon" type="image/png" sizes="16x16" href="./assets/icons/favicon-16.png?v=pwa-icons-1" />
-    <link rel="apple-touch-icon" href="./assets/icons/apple-touch-icon.png?v=pwa-icons-1" />
-    <link rel="stylesheet" href="./styles.css?v=pwa-icons-1" />
+    <link rel="manifest" href="./site.webmanifest?v=install-button-1" />
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/icons/favicon-32.png?v=install-button-1" />
+    <link rel="icon" type="image/png" sizes="16x16" href="./assets/icons/favicon-16.png?v=install-button-1" />
+    <link rel="apple-touch-icon" href="./assets/icons/apple-touch-icon.png?v=install-button-1" />
+    <link rel="stylesheet" href="./styles.css?v=install-button-1" />
   </head>
   <body>
     <div class="app-shell">
@@ -25,8 +25,11 @@
           </div>
         </div>
         <div class="header-actions">
-          <a href="./assets/icons/icon-512.png" download="album-figurinhas-2026-icon.png" class="icon-button" title="Baixar ícone do app" aria-label="Baixar ícone do app">
+          <button id="installAppBtn" class="icon-button" type="button" title="Instalar app" aria-label="Instalar app">
             <span aria-hidden="true">APP</span>
+          </button>
+          <a href="./assets/icons/icon-512.png" download="album-figurinhas-2026-icon.png" class="icon-button" title="Baixar ícone do app" aria-label="Baixar ícone do app">
+            <span aria-hidden="true">ICO</span>
           </a>
           <button id="exportTextBtn" class="icon-button" title="Copiar listas" aria-label="Copiar listas">
             <span aria-hidden="true">CL</span>
@@ -159,8 +162,8 @@
     </template>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="./supabase-config.js?v=pwa-icons-1"></script>
+    <script src="./supabase-config.js?v=install-button-1"></script>
     <script src="./sticker-images.js"></script>
-    <script src="./app.js?v=pwa-icons-1"></script>
+    <script src="./app.js?v=install-button-1"></script>
   </body>
 </html>

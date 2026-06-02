@@ -97,6 +97,8 @@ const syncState = {
   channel: null
 };
 
+let deferredInstallPrompt = null;
+
 const elements = {
   ownedCount: document.querySelector("#ownedCount"),
   missingCount: document.querySelector("#missingCount"),
@@ -119,6 +121,7 @@ const elements = {
   exportTextBtn: document.querySelector("#exportTextBtn"),
   exportJsonBtn: document.querySelector("#exportJsonBtn"),
   importJsonInput: document.querySelector("#importJsonInput"),
+  installAppBtn: document.querySelector("#installAppBtn"),
   syncStatus: document.querySelector("#syncStatus"),
   syncLogin: document.querySelector(".sync-login"),
   syncEmail: document.querySelector("#syncEmail"),
@@ -779,6 +782,55 @@ function registerServiceWorker() {
   });
 }
 
+function isStandaloneApp() {
+  return window.matchMedia("(display-mode: standalone)").matches || window.navigator.standalone === true;
+}
+
+function getInstallHelpMessage() {
+  const ua = navigator.userAgent || "";
+  const isIOS = /iphone|ipad|ipod/i.test(ua);
+  const isAndroid = /android/i.test(ua);
+  const isChromeIOS = /crios/i.test(ua);
+
+  if (isStandaloneApp()) {
+    return "O app ja esta instalado neste aparelho.";
+  }
+
+  if (isIOS) {
+    if (isChromeIOS) {
+      return "No iPhone, abra este link no Safari. Depois toque em Compartilhar e em Adicionar a Tela de Inicio.";
+    }
+    return "No iPhone, toque em Compartilhar e depois em Adicionar a Tela de Inicio.";
+  }
+
+  if (isAndroid) {
+    return "No Android, toque no menu do Chrome e escolha Instalar app ou Adicionar a tela inicial.";
+  }
+
+  return "Use o menu do navegador e escolha Instalar app ou Adicionar a tela inicial.";
+}
+
+async function installApp() {
+  if (isStandaloneApp()) {
+    showToast("O app ja esta instalado neste aparelho.");
+    return;
+  }
+
+  if (deferredInstallPrompt) {
+    deferredInstallPrompt.prompt();
+    await deferredInstallPrompt.userChoice.catch(() => null);
+    deferredInstallPrompt = null;
+    return;
+  }
+
+  showToast(getInstallHelpMessage());
+}
+
+window.addEventListener("beforeinstallprompt", event => {
+  event.preventDefault();
+  deferredInstallPrompt = event;
+});
+
 
 elements.searchInput.addEventListener("input", event => {
   state.query = event.target.value;
@@ -809,6 +861,7 @@ elements.quickInput.addEventListener("keydown", event => {
 });
 elements.exportTextBtn.addEventListener("click", copyTextExport);
 elements.exportJsonBtn.addEventListener("click", exportJson);
+elements.installAppBtn?.addEventListener("click", installApp);
 elements.importJsonInput.addEventListener("change", event => {
   const [file] = event.target.files || [];
   if (file) importJson(file);

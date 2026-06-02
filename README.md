@@ -27,10 +27,12 @@ Use `BK` para exportar um arquivo JSON e `IM` para importar esse arquivo depois.
 O app possui manifest, favicon, apple-touch-icon e service worker simples para
 funcionar como app instalavel.
 
-No Android, abra o link no Chrome e use `Adicionar a tela inicial` ou `Instalar app`.
+No Android, abra o link no Chrome e toque no botao `APP`; se o navegador nao
+abrir o prompt, use o menu do Chrome e escolha `Adicionar a tela inicial` ou
+`Instalar app`.
 No iPhone, abra no Safari, toque em compartilhar e escolha `Adicionar a Tela de Inicio`.
 
-O botao `APP` no topo baixa o icone em PNG, caso alguem queira salvar a imagem
+O botao `ICO` no topo baixa o icone em PNG, caso alguem queira salvar a imagem
 manualmente.
 
 ## Sincronizacao com Supabase
