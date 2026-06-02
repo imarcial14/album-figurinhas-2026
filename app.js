@@ -771,6 +771,14 @@ function forceFullSync() {
   pushRemoteState();
 }
 
+function registerServiceWorker() {
+  if (!("serviceWorker" in navigator)) return;
+  if (!window.location.protocol.startsWith("http")) return;
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js").catch(() => {});
+  });
+}
+
 
 elements.searchInput.addEventListener("input", event => {
   state.query = event.target.value;
@@ -825,3 +833,4 @@ elements.authPassword?.addEventListener("keydown", event => {
 
 render();
 initSupabase();
+registerServiceWorker();

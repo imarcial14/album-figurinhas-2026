@@ -22,6 +22,17 @@ A lista inicial foi montada a partir do PDF `Controle De Figurinhas 2026 (1).pdf
 
 Use `BK` para exportar um arquivo JSON e `IM` para importar esse arquivo depois.
 
+## Icone no celular
+
+O app possui manifest, favicon, apple-touch-icon e service worker simples para
+funcionar como app instalavel.
+
+No Android, abra o link no Chrome e use `Adicionar a tela inicial` ou `Instalar app`.
+No iPhone, abra no Safari, toque em compartilhar e escolha `Adicionar a Tela de Inicio`.
+
+O botao `APP` no topo baixa o icone em PNG, caso alguem queira salvar a imagem
+manualmente.
+
 ## Sincronizacao com Supabase
 
 O app tambem pode salvar o progresso na nuvem para uso em celulares.

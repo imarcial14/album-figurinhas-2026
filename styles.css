@@ -112,6 +112,7 @@ h2 {
   color: var(--ink);
   font-size: 0.78rem;
   font-weight: 850;
+  text-decoration: none;
 }
 
 .icon-button:hover,
